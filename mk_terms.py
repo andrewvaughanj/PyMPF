@@ -193,18 +193,19 @@ def gen_float_expressions(depth):
 
     for child_1 in gen_float_expressions(depth - 1):
         if tree_contains_var(child_1):
-            yield call("fp.abs", False, child_1)
-            yield call("fp.neg", False, child_1)
-            yield call("fp.sqrt", True, child_1)
-            yield call("fp.roundToIntegral", True, child_1)
+            pass
+            # yield call("fp.abs", False, child_1)
+            # yield call("fp.neg", False, child_1)
+            # yield call("fp.sqrt", True, child_1)
+            # yield call("fp.roundToIntegral", True, child_1)
 
         for child_2 in gen_float_expressions(depth - 1):
             if tree_contains_var(child_1) or tree_contains_var(child_2):
                 # yield call("fp.rem", False, child_1, child_2)
-                yield call("fp.div", True, child_1, child_2)
+                # yield call("fp.div", True, child_1, child_2)
                 if tree_leq(child_1, child_2):
                     yield unordered(call("fp.add", True, child_1, child_2))
-                    yield unordered(call("fp.mul", True, child_1, child_2))
+                    # yield unordered(call("fp.mul", True, child_1, child_2))
 
 
 def gen_bool_expressions(depth):

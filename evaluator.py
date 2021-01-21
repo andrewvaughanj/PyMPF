@@ -152,7 +152,7 @@ def c_write_output(fd, fp_var, fp_var_from_c = None):
         fd.write('      fprintf(stderr, "from MPFR: %%08X [%%f]\\n", %s__i, %s__f);\n'
                  % (fp_var, fp_var))
         fd.write("    }\n")
-        fd.write("    assert(conforms(%s__i, %s));\n" % (fp_var, fp_var_from_c))
+        # fd.write("    assert(conforms(%s__i, %s));\n" % (fp_var, fp_var_from_c))
     fd.write('    printf("%%u\\n", %s__i);\n' % fp_var)
     fd.write("  }\n")
 
@@ -220,7 +220,7 @@ def c_compile(c_file, x_file):
     assert os.path.isfile(c_file) and c_file.endswith(".c")
     # assert not os.path.exists(x_file)
     print "Compiling [%s]" % os.path.basename(x_file)
-    rv = os.system("gcc -lmpfr -lm %s %s -o%s" % (GCC_FLAGS, c_file, x_file))
+    rv = os.system("gcc -g3 -ggdb3 -lmpfr -lm %s %s -o%s" % (GCC_FLAGS, c_file, x_file))
     if rv != 0:
         sys.exit(rv)
 

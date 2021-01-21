@@ -63,9 +63,9 @@ RM_RTN = "RTN"
 RM_RTZ = "RTZ"
 
 class MPF(object):
-    ROUNDING_MODES          = (RM_RNE, RM_RNA, RM_RTP, RM_RTN, RM_RTZ)
-    ROUNDING_MODES_NEAREST  = (RM_RNE, RM_RNA)
-    ROUNDING_MODES_DIRECTED = (RM_RTP, RM_RTN, RM_RTZ)
+    ROUNDING_MODES          = (RM_RNE,) #, RM_RNA, RM_RTP, RM_RTN, RM_RTZ)
+    ROUNDING_MODES_NEAREST  = (RM_RNE,) # , RM_RNA)
+    ROUNDING_MODES_DIRECTED = [] # RM_RTP, RM_RTN, RM_RTZ)
 
     def __init__(self, eb, sb, bitvec=0):
         # Naming chosen so that the interface is close to SMTLIB (eb,
@@ -440,14 +440,16 @@ class MPF(object):
     # SMTLIB support
 
     def smtlib_sort(self):
-        if self.w == 5 and self.p == 11:
-            return "Float16"
-        elif self.w == 8 and self.p == 24:
-            return "Float32"
-        elif self.w == 11 and self.p == 53:
-            return "Float64"
-        elif self.w == 15 and self.p == 113:
-            return "Float128"
+        if False:
+            pass
+#        if self.w == 5 and self.p == 11:
+#            return "Float16"
+#        elif self.w == 8 and self.p == 24:
+#            return "Float32"
+#        elif self.w == 11 and self.p == 53:
+#            return "Float64"
+#        elif self.w == 15 and self.p == 113:
+#            return "Float128"
         else:
             return "(_ FloatingPoint %u %u)" % (self.w, self.p)
 
@@ -487,7 +489,7 @@ class MPF(object):
             # we need to use a binary bitvector
             lit += ("#b{0:0%ub}" % self.k).format(self.bv)
         lit += ")"
-        choices.append(lit)
+        # choices.append(lit)
 
         # FP literal
         S, E, T = self.unpack()
@@ -503,17 +505,17 @@ class MPF(object):
             else:
                 lit += "-"
             lit += "zero %u %u)" % (self.w, self.p)
-            choices.append(lit)
+            # choices.append(lit)
         elif self.isInfinite():
             if self.isPositive():
                 lit += "+"
             else:
                 lit += "-"
             lit += "oo %u %u)" % (self.w, self.p)
-            choices.append(lit)
+            # choices.append(lit)
         elif self.isNaN():
             lit += "NaN %u %u)" % (self.w, self.p)
-            choices.append(lit)
+            # choices.append(lit)
 
         return choices
 
@@ -1181,20 +1183,20 @@ class Floating_Point_Predicate(Floating_Point_Operation):
 
 FP_OPS = {
     # Basic operations
-    "fp.abs"             : Floating_Point_Operation("fp.abs",
-                                                    1, rm_arg=False),
-    "fp.neg"             : Floating_Point_Operation("fp.neg",
-                                                    1, rm_arg=False),
-    "fp.sqrt"            : Floating_Point_Operation("fp.sqrt", 1),
-    "fp.roundToIntegral" : Floating_Point_Operation("fp.roundToIntegral", 1),
+    #fp.abs"             : Floating_Point_Operation("fp.abs",
+                                                    # 1, rm_arg=False),
+    #fp.neg"             : Floating_Point_Operation("fp.neg",
+                                                    # 1, rm_arg=False),
+    #fp.sqrt"            : Floating_Point_Operation("fp.sqrt", 1),
+    #fp.roundToIntegral" : Floating_Point_Operation("fp.roundToIntegral", 1),
     "fp.add"             : Floating_Point_Operation("fp.add", 2),
-    "fp.sub"             : Floating_Point_Operation("fp.sub", 2),
-    "fp.mul"             : Floating_Point_Operation("fp.mul", 2),
-    "fp.div"             : Floating_Point_Operation("fp.div", 2),
-    "fp.rem"             : Floating_Point_Operation("fp.rem", 2, rm_arg=False),
-    "fp.min"             : Floating_Point_Operation("fp.min", 2, rm_arg=False),
-    "fp.max"             : Floating_Point_Operation("fp.max", 2, rm_arg=False),
-    "fp.fma"             : Floating_Point_Operation("fp.fma", 3),
+    #fp.sub"             : Floating_Point_Operation("fp.sub", 2),
+    #fp.mul"             : Floating_Point_Operation("fp.mul", 2),
+    #fp.div"             : Floating_Point_Operation("fp.div", 2),
+    #fp.rem"             : Floating_Point_Operation("fp.rem", 2, rm_arg=False),
+    #fp.min"             : Floating_Point_Operation("fp.min", 2, rm_arg=False),
+    #fp.max"             : Floating_Point_Operation("fp.max", 2, rm_arg=False),
+    #fp.fma"             : Floating_Point_Operation("fp.fma", 3),
 
     # Predicates
     "fp.isNormal"        : Floating_Point_Predicate("fp.isNormal", 1),

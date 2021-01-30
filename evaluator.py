@@ -41,17 +41,16 @@ import subprocess
 from mpf.floats import *
 
 GCC_FLAGS = " ".join(["-std=c99",
-                      "-msse2",
-                      "-mfpmath=sse",
+                      "-Wno-ignored-optimization-argument",
                       "-frounding-math",
                       "-fsignaling-nans",
                       "-ffp-contract=off",
-                      "-mfma",
-                      "-mno-fma4",
                       "-pedantic",
                       "-Wall",
                       "-W",
                       "-Werror",
+                      "-I/opt/local/include",
+                      "-L/opt/local/lib",
                   ])
 
 VALID_MPFR_ROUNDING_MODES = (RM_RNE, RM_RTP, RM_RTN, RM_RTZ)
